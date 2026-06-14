@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: 0 0% 6%;
+  --color-foreground: 0 0% 98%;
+  --color-card: 210 20% 12%;
+  --color-primary: 217 100% 50%;
+  --color-secondary: 210 20% 20%;
+  --color-accent: 217 100% 50%;
+  --color-muted: 210 10% 30%;
+  --color-border: 210 20% 18%;
+  --color-risk-critical: 0 100% 50%;
+  --color-risk-high: 38 100% 50%;
+  --color-risk-medium: 38 92% 50%;
+  --color-risk-low: 142 71% 45%;
+  --color-risk-none: 210 20% 30%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply bg-background;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .container-md {
+    @apply max-w-6xl mx-auto px-4;
+  }
+
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-blue-600;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-foreground hover:opacity-80;
+  }
+
+  .card {
+    @apply bg-card rounded-xl border border-border p-6;
+  }
+
+  .stat-box {
+    @apply bg-card rounded-xl border border-border p-4;
+  }
+}
