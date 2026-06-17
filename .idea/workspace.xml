@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6e258669-773d-4d0e-bf02-3a70b8001d0d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/features.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/features.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ingest.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ingest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +34,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python tests.Python tests in features.py.executor": "Run",
+    "Python tests.Python tests in ingest.py.executor": "Run",
+    "Python.ingest.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/data-pipeline"
+    "git-widget-placeholder": "dev"
   }
 }]]></component>
   <component name="SharedIndexes">
