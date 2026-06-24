@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9ca43e7b-94dc-48e2-9dd2-bf9651a63009" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/convert_nse_disclosures.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/ADANIENT_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/ADANIENT_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/BAJFINANCE_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/BAJFINANCE_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/HDFCBANK_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/HDFCBANK_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/INFY_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/INFY_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/RELIANCE_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/RELIANCE_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/SUNPHARMA_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/SUNPHARMA_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/TCS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/TCS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/WIPRO_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/WIPRO_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/ADANIENT_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/ADANIENT_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/BAJFINANCE_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/BAJFINANCE_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/HDFCBANK_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/HDFCBANK_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/INFY_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/INFY_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/NIFTY50_benchmark.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/NIFTY50_benchmark.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/RELIANCE_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/RELIANCE_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/SUNPHARMA_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/SUNPHARMA_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/TCS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/TCS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/WIPRO_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/WIPRO_ohlcv.csv" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="3FRMT9cGQO0Sbjl11rjVZjbgN99" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python tests.Python tests in convert_nse_disclosures.py.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-50da183f06c8-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.13135.95" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9ca43e7b-94dc-48e2-9dd2-bf9651a63009" name="Changes" comment="" />
+      <created>1782033435791</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1782033435791</updated>
+    </task>
+    <servers />
+  </component>
+</project>
