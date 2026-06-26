@@ -40,6 +40,7 @@ export interface DayRecord {
   ifAnomaly: boolean         // Informed Flow anomaly flag
   eventProximity: number     // days to nearest corporate event
   flagged: boolean           // score crossed threshold
+  signalType?: string        // dominant signal that day, e.g. "AVR + CAR Spike"
 }
 
 export interface StockHistoryResponse {
@@ -63,3 +64,23 @@ export interface StockSummary {
 
 // Shared types
 export type RiskTier = 'Critical' | 'High' | 'Medium' | 'Low' | 'Clean'
+
+// Wrapper returned by every lib/api.ts function so the UI can show a
+// "Demo data — backend offline" badge when the live fetch fails.
+export interface ApiResult<T> {
+  data: T
+  demo: boolean // true when we fell back to local mock data
+}
+
+// Aggregated cross-stock flagged event (Historical Log page).
+// NOTE: assembled client-side from multiple getStockHistory() calls —
+// see comment in lib/api.ts / app/history. Person A may add a dedicated
+// /history endpoint later.
+export interface HistoricalEvent {
+  date: string // ISO date
+  ticker: string
+  company: string
+  score: number
+  riskTier: RiskTier
+  signalType: string
+}

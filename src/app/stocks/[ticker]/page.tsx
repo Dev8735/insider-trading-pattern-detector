@@ -1,468 +1,173 @@
 'use client'
 
 import * as React from 'react'
-import { useRouter } from 'next/navigation'
-import {
-  makeStyles,
-  tokens,
-  typographyStyles,
-  Title1,
-  Title3,
-  Subtitle2,
-  Body1Strong,
-  Caption1,
-  Card,
-  CardHeader,
-  Button,
-  Skeleton,
-  SkeletonItem,
-  Table,
-  TableHeader,
-  TableHeaderCell,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableCellLayout,
-  Badge,
-  mergeClasses,
-} from '@fluentui/react-components'
-import {
-  ArrowLeftRegular,
-  ArrowSortDownRegular,
-  ArrowSortUpRegular,
-  ArrowSortRegular,
-  ShieldErrorRegular,
-} from '@fluentui/react-icons'
-import { AppShell } from '@/components/NavRail'
-import { RiskBadge } from '@/components/RiskBadge'
-import { KpiCard } from '@/components/KpiCard'
-import { fetchStockHistory, fetchStockSummary } from '@/lib/api'
-import type { StockSummary, DayRecord } from '@/lib/types'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { ChevronLeft, Check, Minus } from 'lucide-react'
+import { PageHeader } from '@/components/PageHeader'
+import { SummaryCard, SummaryGrid } from '@/components/SummaryCard'
+import { DataTable, type Column } from '@/components/DataTable'
+import { RiskPill, Pill } from '@/components/RiskPill'
+import { DemoBadge } from '@/components/DemoBadge'
+import { getStockHistory, getStockSummary } from '@/lib/api'
+import { formatDate } from '@/lib/utils'
+import type { DayRecord, StockHistoryResponse, StockSummary } from '@/lib/types'
 
-const useStyles = makeStyles({
-  page: {
-    minHeight: '100vh',
-    backgroundColor: tokens.colorNeutralBackground2,
-    paddingBottom: tokens.spacingVerticalXXXL,
-  },
-  inner: {
-    maxWidth: '1280px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    paddingLeft: tokens.spacingHorizontalXL,
-    paddingRight: tokens.spacingHorizontalXL,
-    paddingTop: tokens.spacingVerticalXL,
-    '@media (max-width: 480px)': {
-      paddingLeft: tokens.spacingHorizontalM,
-      paddingRight: tokens.spacingHorizontalM,
-      paddingTop: tokens.spacingVerticalM,
-    },
-  },
-  backBtn: { marginBottom: tokens.spacingVerticalL },
+export default function StockDetailPage() {
+  const params = useParams<{ ticker: string }>()
+  const ticker = decodeURIComponent(
+    Array.isArray(params.ticker) ? params.ticker[0] : params.ticker,
+  )
 
-  // Header card
-  headerCard: {
-    marginBottom: tokens.spacingVerticalXL,
-    paddingTop: tokens.spacingVerticalL,
-    paddingBottom: tokens.spacingVerticalL,
-    paddingLeft: tokens.spacingHorizontalXL,
-    paddingRight: tokens.spacingHorizontalXL,
-    '@media (max-width: 480px)': {
-      paddingLeft: tokens.spacingHorizontalM,
-      paddingRight: tokens.spacingHorizontalM,
-    },
-  },
-  headerRow: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: tokens.spacingHorizontalM,
-    marginBottom: tokens.spacingVerticalM,
-  },
-  tickerBlock: { display: 'flex', flexDirection: 'column', gap: tokens.spacingVerticalXS },
-  tickerText: {
-    ...typographyStyles.largeTitle,
-    fontVariantNumeric: 'tabular-nums',
-    color: tokens.colorNeutralForeground1,
-  },
-  companyText: { color: tokens.colorNeutralForeground2 },
-  metaRow: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: tokens.spacingHorizontalS,
-    alignItems: 'center',
-    marginTop: tokens.spacingVerticalS,
-  },
-
-  // KPI grid
-  kpiGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: tokens.spacingHorizontalM,
-    marginBottom: tokens.spacingVerticalXXL,
-    '@media (max-width: 480px)': {
-      gridTemplateColumns: 'repeat(2, 1fr)',
-      gap: tokens.spacingHorizontalS,
-    },
-  },
-
-  // History table section
-  tableSection: {
-    backgroundColor: tokens.colorNeutralBackground1,
-    borderRadius: tokens.borderRadiusLarge,
-    borderTopWidth: tokens.strokeWidthThin,
-    borderRightWidth: tokens.strokeWidthThin,
-    borderBottomWidth: tokens.strokeWidthThin,
-    borderLeftWidth: tokens.strokeWidthThin,
-    borderTopStyle: 'solid',
-    borderRightStyle: 'solid',
-    borderBottomStyle: 'solid',
-    borderLeftStyle: 'solid',
-    borderTopColor: tokens.colorNeutralStroke2,
-    borderRightColor: tokens.colorNeutralStroke2,
-    borderBottomColor: tokens.colorNeutralStroke2,
-    borderLeftColor: tokens.colorNeutralStroke2,
-    overflow: 'hidden',
-  },
-  tableHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: tokens.spacingHorizontalM,
-    paddingTop: tokens.spacingVerticalM,
-    paddingBottom: tokens.spacingVerticalM,
-    paddingLeft: tokens.spacingHorizontalL,
-    paddingRight: tokens.spacingHorizontalL,
-    borderBottomWidth: tokens.strokeWidthThin,
-    borderBottomStyle: 'solid',
-    borderBottomColor: tokens.colorNeutralStroke2,
-  },
-  tableWrap: { overflowX: 'auto' },
-  tableRow: {
-    transition: `background ${tokens.durationFast}`,
-    ':hover': { backgroundColor: tokens.colorNeutralBackground1Hover },
-  },
-  tableRowFlagged: {
-    backgroundColor: tokens.colorPaletteRedBackground1,
-    ':hover': { backgroundColor: tokens.colorNeutralBackground1Hover },
-  },
-  headerCell: {
-    cursor: 'pointer',
-    userSelect: 'none',
-  },
-  headerInner: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: tokens.spacingHorizontalXS,
-  },
-  mobileHide: {
-    '@media (max-width: 600px)': { display: 'none' },
-  },
-  score: {
-    fontVariantNumeric: 'tabular-nums',
-    fontWeight: tokens.fontWeightSemibold,
-  },
-  scoreHigh: { color: tokens.colorPaletteRedForeground2 },
-  num: { fontVariantNumeric: 'tabular-nums' },
-  emptyState: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: tokens.spacingVerticalM,
-    paddingTop: tokens.spacingVerticalXXXL,
-    paddingBottom: tokens.spacingVerticalXXXL,
-    color: tokens.colorNeutralForeground3,
-  },
-
-  // Pagination
-  paginationRow: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    flexWrap: 'wrap',
-    gap: tokens.spacingHorizontalM,
-    paddingTop: tokens.spacingVerticalM,
-    paddingBottom: tokens.spacingVerticalM,
-    paddingLeft: tokens.spacingHorizontalL,
-    paddingRight: tokens.spacingHorizontalL,
-    borderTopWidth: tokens.strokeWidthThin,
-    borderTopStyle: 'solid' as const,
-    borderTopColor: tokens.colorNeutralStroke2,
-  },
-})
-
-type SortKey = 'date' | 'suspicionScore' | 'avr' | 'car' | 'eventProximity'
-type SortDir = 'asc' | 'desc'
-
-function SortIcon({ active, dir }: { active: boolean; dir: SortDir }) {
-  if (!active) return <ArrowSortRegular fontSize={14} />
-  return dir === 'desc' ? <ArrowSortDownRegular fontSize={14} /> : <ArrowSortUpRegular fontSize={14} />
-}
-
-const PAGE_SIZE = 15
-
-export default function StockDetailPage({ params }: { params: Promise<{ ticker: string }> }) {
-  const styles = useStyles()
-  const router = useRouter()
-
-  const [ticker, setTicker] = React.useState<string | null>(null)
   const [summary, setSummary] = React.useState<StockSummary | null>(null)
-  const [records, setRecords] = React.useState<DayRecord[]>([])
+  const [history, setHistory] = React.useState<StockHistoryResponse | null>(null)
   const [loading, setLoading] = React.useState(true)
-  const [apiConnected, setApiConnected] = React.useState(false)
-
-  const [sortKey, setSortKey] = React.useState<SortKey>('date')
-  const [sortDir, setSortDir] = React.useState<SortDir>('desc')
-  const [page, setPage] = React.useState(0)
-
-  // Unwrap params
-  React.useEffect(() => {
-    params.then((p) => setTicker(p.ticker.toUpperCase()))
-  }, [params])
+  const [demo, setDemo] = React.useState(false)
 
   React.useEffect(() => {
-    if (!ticker) return
+    let active = true
     setLoading(true)
-    Promise.all([
-      // TODO: swap for real fetchStockSummary(ticker) → endpoint 5
-      fetchStockSummary(ticker),
-      // TODO: swap for real fetchStockHistory(ticker) → endpoint 4
-      fetchStockHistory(ticker),
-    ])
-      .then(([sum, hist]) => {
-        setSummary(sum)
-        setRecords(hist.records)
-        setApiConnected(true)
-      })
-      .catch(() => setApiConnected(false))
-      .finally(() => setLoading(false))
+    Promise.all([getStockSummary(ticker), getStockHistory(ticker)]).then(([s, h]) => {
+      if (!active) return
+      setSummary(s.data)
+      setHistory(h.data)
+      setDemo(s.demo || h.demo)
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
   }, [ticker])
 
-  const handleSort = (key: SortKey) => {
-    if (sortKey === key) setSortDir((d) => (d === 'desc' ? 'asc' : 'desc'))
-    else { setSortKey(key); setSortDir('desc'); setPage(0) }
-  }
+  const records = history?.records ?? []
+  const latestDate = records.at(-1)?.date ?? null
 
-  const sorted = React.useMemo(() => {
-    return [...records].sort((a, b) => {
-      const mul = sortDir === 'desc' ? -1 : 1
-      if (sortKey === 'date') return mul * a.date.localeCompare(b.date)
-      if (sortKey === 'suspicionScore') return mul * (a.suspicionScore - b.suspicionScore)
-      if (sortKey === 'avr') return mul * (a.avr - b.avr)
-      if (sortKey === 'car') return mul * (a.car - b.car)
-      if (sortKey === 'eventProximity') return mul * (a.eventProximity - b.eventProximity)
-      return 0
-    })
-  }, [records, sortKey, sortDir])
-
-  const totalPages = Math.ceil(sorted.length / PAGE_SIZE)
-  const pageRows = sorted.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
-
-  const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+  const columns: Column<DayRecord>[] = [
+    {
+      key: 'date',
+      header: 'Date',
+      priority: true,
+      render: (r) => <span className="text-foreground">{formatDate(r.date)}</span>,
+      sortValue: (r) => r.date,
+    },
+    {
+      key: 'suspicionScore',
+      header: 'Score',
+      align: 'right',
+      priority: true,
+      render: (r) => <span className="font-medium tabular-nums">{r.suspicionScore}</span>,
+      sortValue: (r) => r.suspicionScore,
+    },
+    {
+      key: 'avr',
+      header: 'AVR',
+      align: 'right',
+      render: (r) => <span className="tabular-nums text-muted">{r.avr.toFixed(2)}×</span>,
+      sortValue: (r) => r.avr,
+    },
+    {
+      key: 'car',
+      header: 'CAR %',
+      align: 'right',
+      render: (r) => (
+        <span className="tabular-nums text-muted">
+          {r.car >= 0 ? '+' : ''}
+          {r.car.toFixed(2)}
+        </span>
+      ),
+      sortValue: (r) => r.car,
+    },
+    {
+      key: 'ifAnomaly',
+      header: 'IF Anomaly',
+      render: (r) =>
+        r.ifAnomaly ? (
+          <span className="inline-flex items-center gap-1 text-[var(--color-pill-red-text)]">
+            <Check size={15} strokeWidth={2} /> Yes
+          </span>
+        ) : (
+          <span className="inline-flex items-center gap-1 text-faint">
+            <Minus size={15} strokeWidth={1.75} /> No
+          </span>
+        ),
+      sortValue: (r) => (r.ifAnomaly ? 1 : 0),
+    },
+    {
+      key: 'eventProximity',
+      header: 'Event Proximity',
+      align: 'right',
+      render: (r) => <span className="tabular-nums text-muted">{r.eventProximity}d</span>,
+      sortValue: (r) => r.eventProximity,
+    },
+  ]
 
   return (
-    <AppShell apiConnected={apiConnected}>
-      <main className={styles.page}>
-        <div className={styles.inner}>
-          {/* Back */}
-          <div className={styles.backBtn}>
-            <Button
-              appearance="subtle"
-              icon={<ArrowLeftRegular />}
-              onClick={() => router.push('/stocks')}
-              aria-label="Back to Stocks Explorer"
-            >
-              Back to Stocks
-            </Button>
-          </div>
+    <div>
+      <Link
+        href="/stocks"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-foreground"
+      >
+        <ChevronLeft size={15} strokeWidth={1.75} />
+        Stocks Explorer
+      </Link>
 
-          {/* Header card */}
-          {loading ? (
-            <Skeleton aria-label="Loading stock details" style={{ marginBottom: tokens.spacingVerticalXL }}>
-              <SkeletonItem style={{ height: '120px', borderRadius: tokens.borderRadiusLarge }} />
-            </Skeleton>
-          ) : summary ? (
-            <Card appearance="filled-alternative" className={styles.headerCard}>
-              <div className={styles.headerRow}>
-                <div className={styles.tickerBlock}>
-                  <div className={styles.tickerText}>{summary.ticker}</div>
-                  <Subtitle2 className={styles.companyText}>{summary.company}</Subtitle2>
-                </div>
-                <RiskBadge tier={summary.riskTier} score={summary.latestScore} size="extra-large" />
-              </div>
-              <div className={styles.metaRow}>
-                <Badge appearance="outline" color="informative">{summary.exchange}</Badge>
-                <Badge appearance="outline">{summary.sector}</Badge>
-              </div>
-            </Card>
-          ) : null}
+      <PageHeader
+        title={summary?.ticker ?? ticker}
+        subtitle={
+          summary ? `${summary.company} · ${summary.sector} · ${summary.exchange}` : '\u00A0'
+        }
+        badge={
+          <span className="flex items-center gap-2">
+            {summary ? <RiskPill tier={summary.riskTier} /> : null}
+            {!loading && demo ? <DemoBadge /> : null}
+          </span>
+        }
+      />
 
-          {/* KPI summary cards */}
-          <section aria-label="Stock summary metrics" className={styles.kpiGrid}>
-            {loading ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton key={i} aria-label="Loading metric">
-                  <SkeletonItem style={{ height: '90px', borderRadius: tokens.borderRadiusLarge }} />
-                </Skeleton>
-              ))
-            ) : summary ? (
-              <>
-                <KpiCard
-                  label="Latest Score"
-                  value={summary.latestScore}
-                  trend="Current suspicion score"
-                  accent={summary.latestScore >= 80 ? 'danger' : summary.latestScore >= 60 ? 'warning' : 'success'}
-                />
-                <KpiCard
-                  label="Peak Score"
-                  value={summary.peakScore}
-                  trend="30-day maximum"
-                  accent={summary.peakScore >= 80 ? 'danger' : 'brand'}
-                />
-                <KpiCard
-                  label="Flagged Days"
-                  value={summary.flaggedDays}
-                  trend="Days above threshold"
-                  accent={summary.flaggedDays > 5 ? 'danger' : 'brand'}
-                />
-                <KpiCard
-                  label="Last Flagged"
-                  value={summary.lastFlaggedDate ?? 'Never'}
-                  trend="Most recent alert"
-                  accent="brand"
-                />
-              </>
-            ) : null}
-          </section>
+      <SummaryGrid className="mb-8">
+        <SummaryCard
+          label="Latest Score"
+          value={summary?.latestScore ?? 0}
+          hint={`as of ${formatDate(latestDate)}`}
+          loading={loading}
+        />
+        <SummaryCard
+          label="Peak Score"
+          value={summary?.peakScore ?? 0}
+          hint="Highest in tracked window"
+          loading={loading}
+        />
+        <SummaryCard
+          label="Flagged Days"
+          value={summary?.flaggedDays ?? 0}
+          hint={
+            summary?.lastFlaggedDate
+              ? `Last flagged ${formatDate(summary.lastFlaggedDate)}`
+              : 'No days above threshold'
+          }
+          loading={loading}
+        />
+      </SummaryGrid>
 
-          {/* Day-by-day history table */}
-          <section className={styles.tableSection} aria-label="Day-by-day scored history">
-            <div className={styles.tableHeader}>
-              <Body1Strong>Day-by-Day Score History</Body1Strong>
-              <Caption1 style={{ color: tokens.colorNeutralForeground3 }}>
-                Highlighted rows crossed the flag threshold (score ≥ 60) — sortable and paginated
-              </Caption1>
-            </div>
+      <div className="mb-3 flex items-center gap-2">
+        <h2 className="text-sm font-medium uppercase tracking-wide text-faint">Scored history</h2>
+        {!loading && <Pill color="gray">{records.length} days</Pill>}
+      </div>
 
-            {loading ? (
-              <div style={{ padding: tokens.spacingVerticalL }}>
-                <Skeleton aria-label="Loading history">
-                  {Array.from({ length: 8 }).map((_, i) => (
-                    <SkeletonItem key={i} style={{ height: '40px', marginBottom: tokens.spacingVerticalXS }} />
-                  ))}
-                </Skeleton>
-              </div>
-            ) : pageRows.length === 0 ? (
-              <div className={styles.emptyState}>
-                <ShieldErrorRegular fontSize={40} />
-                <Body1Strong>No history available</Body1Strong>
-                <Caption1>Score records will appear here once data is available.</Caption1>
-              </div>
-            ) : (
-              <>
-                <div className={styles.tableWrap}>
-                  <Table aria-label={`Score history for ${ticker}`} size="small" sortable>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHeaderCell className={styles.headerCell} onClick={() => handleSort('date')}>
-                          <span className={styles.headerInner}>Date <SortIcon active={sortKey === 'date'} dir={sortDir} /></span>
-                        </TableHeaderCell>
-                        <TableHeaderCell className={styles.headerCell} onClick={() => handleSort('suspicionScore')}>
-                          <span className={styles.headerInner}>Score <SortIcon active={sortKey === 'suspicionScore'} dir={sortDir} /></span>
-                        </TableHeaderCell>
-                        <TableHeaderCell className={mergeClasses(styles.headerCell, styles.mobileHide)} onClick={() => handleSort('avr')}>
-                          <span className={styles.headerInner}>AVR <SortIcon active={sortKey === 'avr'} dir={sortDir} /></span>
-                        </TableHeaderCell>
-                        <TableHeaderCell className={mergeClasses(styles.headerCell, styles.mobileHide)} onClick={() => handleSort('car')}>
-                          <span className={styles.headerInner}>CAR (%) <SortIcon active={sortKey === 'car'} dir={sortDir} /></span>
-                        </TableHeaderCell>
-                        <TableHeaderCell className={styles.mobileHide}>IF Anomaly</TableHeaderCell>
-                        <TableHeaderCell className={mergeClasses(styles.headerCell, styles.mobileHide)} onClick={() => handleSort('eventProximity')}>
-                          <span className={styles.headerInner}>Event Proximity <SortIcon active={sortKey === 'eventProximity'} dir={sortDir} /></span>
-                        </TableHeaderCell>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {pageRows.map((row) => (
-                        <TableRow
-                          key={row.date}
-                          className={row.flagged ? mergeClasses(styles.tableRow, styles.tableRowFlagged) : styles.tableRow}
-                          aria-label={`${formatDate(row.date)}, score ${row.suspicionScore}${row.flagged ? ', flagged' : ''}`}
-                        >
-                          <TableCell>
-                            <TableCellLayout>
-                              <Caption1 className={styles.num}>{formatDate(row.date)}</Caption1>
-                            </TableCellLayout>
-                          </TableCell>
-                          <TableCell>
-                            <span className={mergeClasses(styles.score, row.suspicionScore >= 80 && styles.scoreHigh)}>
-                              {row.suspicionScore}
-                            </span>
-                          </TableCell>
-                          <TableCell className={styles.mobileHide}>
-                            <Caption1 className={styles.num}>{row.avr.toFixed(2)}×</Caption1>
-                          </TableCell>
-                          <TableCell className={styles.mobileHide}>
-                            <Caption1
-                              className={styles.num}
-                              style={{ color: row.car >= 0 ? tokens.colorPaletteGreenForeground2 : tokens.colorPaletteRedForeground2 }}
-                            >
-                              {row.car >= 0 ? '+' : ''}{row.car.toFixed(2)}%
-                            </Caption1>
-                          </TableCell>
-                          <TableCell className={styles.mobileHide}>
-                            <Badge
-                              appearance="tint"
-                              color={row.ifAnomaly ? 'danger' : 'subtle'}
-                              size="small"
-                            >
-                              {row.ifAnomaly ? 'Anomaly' : 'Normal'}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className={styles.mobileHide}>
-                            <Caption1 className={styles.num}>{row.eventProximity}d</Caption1>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
+      <DataTable
+        columns={columns}
+        rows={records}
+        rowKey={(r) => r.date}
+        rowClassName={(r) => (r.flagged ? 'row-flagged' : undefined)}
+        loading={loading}
+        emptyMessage="No scored history for this ticker yet."
+        initialSort={{ key: 'date', dir: 'desc' }}
+        pageSize={15}
+      />
 
-                {/* Pagination */}
-                <div className={styles.paginationRow}>
-                  <Caption1 style={{ color: tokens.colorNeutralForeground3 }}>
-                    Showing {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, sorted.length)} of {sorted.length} records
-                  </Caption1>
-                  <div style={{ display: 'flex', gap: tokens.spacingHorizontalS }}>
-                    <Button
-                      appearance="subtle"
-                      size="small"
-                      disabled={page === 0}
-                      onClick={() => setPage((p) => p - 1)}
-                      aria-label="Previous page"
-                    >
-                      Previous
-                    </Button>
-                    <Button
-                      appearance="subtle"
-                      size="small"
-                      disabled={page >= totalPages - 1}
-                      onClick={() => setPage((p) => p + 1)}
-                      aria-label="Next page"
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
-              </>
-            )}
-          </section>
-        </div>
-      </main>
-    </AppShell>
+      <p className="mt-3 text-xs text-faint">
+        Rows tinted red crossed the flag threshold (score ≥ 60).
+      </p>
+    </div>
   )
 }

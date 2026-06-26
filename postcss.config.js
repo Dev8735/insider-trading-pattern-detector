@@ -1,4 +1,6 @@
-// PostCSS — Fluent UI uses Griffel (CSS-in-JS), no CSS pipeline needed
+// Tailwind CSS v4 via PostCSS
 export default {
-  plugins: {},
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
 };
