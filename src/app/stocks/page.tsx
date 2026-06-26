@@ -145,24 +145,24 @@ export default function StocksExplorerPage() {
       />
 
       {/* Search box */}
-      <div className="relative mb-4 max-w-md">
+      <div className="relative mb-3 max-w-md">
         <Search
-          size={16}
+          size={14}
           strokeWidth={1.75}
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-faint"
+          className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-faint"
         />
         <input
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search ticker or company…"
-          className="w-full rounded-md border border-border bg-card py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-faint focus:border-[var(--color-accent)] focus:outline-none"
+          className="w-full rounded-md border border-border bg-card py-1.5 pl-8 pr-3 text-xs sm:text-sm text-foreground placeholder:text-faint focus:border-[var(--color-accent)] focus:outline-none"
           aria-label="Search stocks"
         />
       </div>
 
       {/* Filter chips */}
-      <div className="mb-5 flex flex-col gap-3">
+      <div className="mb-3 flex flex-col gap-2 sm:gap-3">
         <FilterChips label="Risk" options={RISK_TIERS} value={tier} onChange={setTier} />
         <FilterChips label="Sector" options={SECTORS} value={sector} onChange={setSector} />
         <FilterChips
@@ -173,7 +173,7 @@ export default function StocksExplorerPage() {
         />
       </div>
 
-      <p className="mb-3 text-sm text-muted">
+      <p className="mb-2 text-xs text-muted sm:mb-3 sm:text-sm">
         {loading ? 'Loading…' : `${filtered.length} stock${filtered.length !== 1 ? 's' : ''}`}
       </p>
 

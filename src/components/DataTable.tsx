@@ -183,13 +183,13 @@ export function DataTable<T>({
               <button
                 type="button"
                 onClick={() => setExpanded(isOpen ? null : key)}
-                className="flex w-full items-center gap-3 px-3 py-3 text-left"
+                className="flex w-full items-center gap-2 px-2.5 py-2 text-left"
               >
                 {mobileCols.map((col, i) => (
                   <div
                     key={col.key}
                     className={cx(
-                      'min-w-0 text-sm text-foreground',
+                      'min-w-0 text-xs sm:text-sm text-foreground',
                       i === 0 ? 'flex-1 font-medium' : 'flex-shrink-0',
                     )}
                   >
@@ -197,7 +197,7 @@ export function DataTable<T>({
                   </div>
                 ))}
                 <ChevronDown
-                  size={16}
+                  size={14}
                   className={cx(
                     'flex-shrink-0 text-faint transition-transform',
                     isOpen && 'rotate-180',
@@ -205,22 +205,22 @@ export function DataTable<T>({
                 />
               </button>
               {isOpen && hiddenCols.length > 0 && (
-                <dl className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-divider bg-background px-3 py-3">
+                <dl className="grid grid-cols-2 gap-x-3 gap-y-1.5 border-t border-divider bg-background px-2.5 py-2">
                   {hiddenCols.map((col) => (
                     <div key={col.key} className="min-w-0">
                       <dt className="text-xs uppercase tracking-wide text-faint">{col.header}</dt>
-                      <dd className="mt-0.5 text-sm text-foreground">{col.render(row)}</dd>
+                      <dd className="mt-0.5 text-xs sm:text-sm text-foreground">{col.render(row)}</dd>
                     </div>
                   ))}
                   {onRowClick && (
-                    <div className="col-span-2 mt-1">
+                    <div className="col-span-2 mt-0.5">
                       <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation()
                           onRowClick(row)
                         }}
-                        className="text-sm font-medium text-[var(--color-accent)]"
+                        className="text-xs sm:text-sm font-medium text-[var(--color-accent)]"
                       >
                         View details →
                       </button>

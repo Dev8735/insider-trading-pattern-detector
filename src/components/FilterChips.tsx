@@ -13,9 +13,9 @@ interface FilterChipsProps {
 // lines, with a subtle active state. Never overflow horizontally.
 export function FilterChips({ label, options, value, onChange }: FilterChipsProps) {
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
+    <div className="flex flex-wrap items-center gap-1">
       {label ? (
-        <span className="mr-1 text-xs font-medium uppercase tracking-wide text-faint">
+        <span className="mr-0.5 text-xs font-medium uppercase tracking-wide text-faint">
           {label}
         </span>
       ) : null}
@@ -27,7 +27,7 @@ export function FilterChips({ label, options, value, onChange }: FilterChipsProp
             type="button"
             onClick={() => onChange(opt)}
             className={cx(
-              'rounded-full border px-2.5 py-1 text-xs transition-colors',
+              'rounded-full border px-2 py-0.5 text-xs transition-colors',
               active
                 ? 'border-foreground bg-foreground text-primary-foreground'
                 : 'border-border bg-card text-muted hover:bg-hover hover:text-foreground',

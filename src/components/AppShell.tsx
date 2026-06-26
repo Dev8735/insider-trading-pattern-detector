@@ -30,20 +30,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Mobile top bar */}
-      <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background px-4 md:hidden">
+      <header className="fixed inset-x-0 top-0 z-30 flex h-12 items-center gap-2 border-b border-border bg-background px-3 md:hidden">
         <button
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Open menu"
-          className="flex h-9 w-9 items-center justify-center rounded-md border border-border text-muted transition-colors hover:bg-hover"
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted transition-colors hover:bg-hover"
         >
-          <Menu size={18} strokeWidth={1.75} />
+          <Menu size={16} strokeWidth={1.75} />
         </button>
-        <span className="flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center rounded bg-foreground text-primary-foreground">
-            <Eye size={14} strokeWidth={1.75} />
+        <span className="flex items-center gap-1.5">
+          <span className="flex h-5 w-5 items-center justify-center rounded bg-foreground text-primary-foreground">
+            <Eye size={12} strokeWidth={1.75} />
           </span>
-          <span className="text-sm font-medium text-foreground">TradeWatch</span>
+          <span className="text-xs font-medium text-foreground">TradeWatch</span>
         </span>
       </header>
 
@@ -70,7 +70,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       )}
 
       {/* Main content */}
-      <main className="min-w-0 flex-1 px-4 pb-16 pt-20 sm:px-6 md:px-10 md:pt-10 lg:px-14">
+      <main className="min-w-0 flex-1 px-3 pb-12 pt-16 sm:px-4 md:px-10 md:pt-10 lg:px-14">
         <div className="mx-auto w-full max-w-5xl">{children}</div>
       </main>
     </div>

@@ -105,9 +105,9 @@ export default function StockDetailPage() {
     <div>
       <Link
         href="/stocks"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-foreground"
+        className="mb-3 inline-flex items-center gap-1 text-xs sm:text-sm text-muted transition-colors hover:text-foreground"
       >
-        <ChevronLeft size={15} strokeWidth={1.75} />
+        <ChevronLeft size={14} strokeWidth={1.75} />
         Stocks Explorer
       </Link>
 
@@ -124,7 +124,7 @@ export default function StockDetailPage() {
         }
       />
 
-      <SummaryGrid className="mb-8">
+      <SummaryGrid className="mb-4 sm:mb-6">
         <SummaryCard
           label="Latest Score"
           value={summary?.latestScore ?? 0}
@@ -149,8 +149,8 @@ export default function StockDetailPage() {
         />
       </SummaryGrid>
 
-      <div className="mb-3 flex items-center gap-2">
-        <h2 className="text-sm font-medium uppercase tracking-wide text-faint">Scored history</h2>
+      <div className="mb-2 flex items-center gap-2 sm:mb-3">
+        <h2 className="text-xs font-medium uppercase tracking-wide text-faint sm:text-sm">Scored history</h2>
         {!loading && <Pill color="gray">{records.length} days</Pill>}
       </div>
 

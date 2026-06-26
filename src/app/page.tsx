@@ -123,7 +123,7 @@ export default function DashboardPage() {
         />
       </SummaryGrid>
 
-      <h2 className="mb-3 text-sm font-medium uppercase tracking-wide text-faint">
+      <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-faint sm:mb-3 sm:text-sm">
         Flagged stocks
       </h2>
       <DataTable
