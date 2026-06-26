@@ -1,213 +1,428 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useCallback } from 'react';
-import Sidebar from '@/components/Sidebar';
-import Header from '@/components/Header';
-import StatCard from '@/components/StatCard';
-import CandlestickChart from '@/components/CandlestickChart';
-import AnomalyGauge from '@/components/AnomalyGauge';
-import AnomalyTimeline from '@/components/AnomalyTimeline';
+import * as React from 'react'
+import { useRouter } from 'next/navigation'
 import {
-  mockCandleData,
-  mockAnomalySignals,
-  dashboardStats,
-} from '@/lib/mockData';
+  makeStyles,
+  tokens,
+  typographyStyles,
+  Title1,
+  Caption1,
+  Body1Strong,
+  Skeleton,
+  SkeletonItem,
+  Table,
+  TableHeader,
+  TableHeaderCell,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableCellLayout,
+  TableSelectionCell,
+  Button,
+  Spinner,
+  mergeClasses,
+} from '@fluentui/react-components'
 import {
-  AlertTriangle, TrendingUp, BarChart3, Activity,
-  ShieldAlert, Clock,
-} from 'lucide-react';
+  DataTrendingRegular,
+  ShieldErrorRegular,
+  AlertRegular,
+  BuildingBankRegular,
+  ArrowSortDownRegular,
+  ArrowSortUpRegular,
+  ArrowSortRegular,
+  ArrowClockwiseRegular,
+} from '@fluentui/react-icons'
+import { AppShell } from '@/components/NavRail'
+import { KpiCard } from '@/components/KpiCard'
+import { RiskBadge } from '@/components/RiskBadge'
+import { fetchFlags, fetchHealth } from '@/lib/api'
+import type { FlaggedStock, RiskTier } from '@/lib/types'
 
-function formatTimeAgo(date: Date) {
-  const secs = Math.floor((Date.now() - date.getTime()) / 1000);
-  if (secs < 10) return 'just now';
-  if (secs < 60) return `${secs}s ago`;
-  const mins = Math.floor(secs / 60);
-  return `${mins}m ago`;
+const useStyles = makeStyles({
+  page: {
+    minHeight: '100vh',
+    backgroundColor: tokens.colorNeutralBackground2,
+    paddingBottom: tokens.spacingVerticalXXXL,
+  },
+  inner: {
+    maxWidth: '1280px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    paddingLeft: tokens.spacingHorizontalXL,
+    paddingRight: tokens.spacingHorizontalXL,
+    paddingTop: tokens.spacingVerticalXL,
+    '@media (max-width: 480px)': {
+      paddingLeft: tokens.spacingHorizontalM,
+      paddingRight: tokens.spacingHorizontalM,
+      paddingTop: tokens.spacingVerticalM,
+    },
+  },
+  pageHeader: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: tokens.spacingVerticalM,
+    marginBottom: tokens.spacingVerticalXXL,
+  },
+  titleBlock: { display: 'flex', flexDirection: 'column', gap: tokens.spacingVerticalXS },
+  subtitle: { color: tokens.colorNeutralForeground3 },
+  timestamp: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalXS,
+    ...typographyStyles.caption1,
+    color: tokens.colorNeutralForeground3,
+    backgroundColor: tokens.colorNeutralBackground3,
+    paddingLeft: tokens.spacingHorizontalM,
+    paddingRight: tokens.spacingHorizontalM,
+    paddingTop: tokens.spacingVerticalXS,
+    paddingBottom: tokens.spacingVerticalXS,
+    borderRadius: tokens.borderRadiusCircular,
+    borderWidth: tokens.strokeWidthThin,
+    borderStyle: 'solid',
+    borderColor: tokens.colorNeutralStroke2,
+    whiteSpace: 'nowrap',
+    alignSelf: 'flex-start',
+    marginTop: tokens.spacingVerticalXS,
+  },
+
+  // KPI grid
+  kpiGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: tokens.spacingHorizontalM,
+    marginBottom: tokens.spacingVerticalXXL,
+    '@media (max-width: 480px)': {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: tokens.spacingHorizontalS,
+    },
+  },
+
+  // Table section
+  tableSection: {
+    backgroundColor: tokens.colorNeutralBackground1,
+    borderRadius: tokens.borderRadiusLarge,
+    borderWidth: tokens.strokeWidthThin,
+    borderStyle: 'solid',
+    borderColor: tokens.colorNeutralStroke2,
+    overflow: 'hidden',
+  },
+  tableHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    gap: tokens.spacingHorizontalM,
+    paddingTop: tokens.spacingVerticalM,
+    paddingBottom: tokens.spacingVerticalM,
+    paddingLeft: tokens.spacingHorizontalL,
+    paddingRight: tokens.spacingHorizontalL,
+    borderBottomWidth: tokens.strokeWidthThin,
+    borderBottomStyle: 'solid',
+    borderBottomColor: tokens.colorNeutralStroke2,
+  },
+  tableWrap: {
+    overflowX: 'auto',
+  },
+  tableRow: {
+    cursor: 'pointer',
+    ':hover': { backgroundColor: tokens.colorNeutralBackground1Hover },
+    transition: `background ${tokens.durationFast}`,
+  },
+  tableRowFlagged: {
+    backgroundColor: tokens.colorPaletteRedBackground1,
+    ':hover': { backgroundColor: tokens.colorNeutralBackground1Hover },
+  },
+  tableRowHigh: {
+    backgroundColor: tokens.colorPaletteMarigoldBackground1,
+    ':hover': { backgroundColor: tokens.colorNeutralBackground1Hover },
+  },
+  headerCell: {
+    cursor: 'pointer',
+    userSelect: 'none',
+    ':hover': { color: tokens.colorNeutralForeground1 },
+  },
+  headerCellInner: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalXS,
+  },
+  score: {
+    fontVariantNumeric: 'tabular-nums',
+    fontWeight: tokens.fontWeightSemibold,
+    color: tokens.colorNeutralForeground1,
+  },
+  scoreHigh: { color: tokens.colorPaletteRedForeground2 },
+  mobileHide: {
+    '@media (max-width: 600px)': { display: 'none' },
+  },
+  emptyState: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: tokens.spacingVerticalM,
+    paddingTop: tokens.spacingVerticalXXXL,
+    paddingBottom: tokens.spacingVerticalXXXL,
+    color: tokens.colorNeutralForeground3,
+  },
+})
+
+type SortKey = 'peakScore' | 'ticker' | 'flaggedDays'
+type SortDir = 'asc' | 'desc'
+
+function SortIcon({ col, active, dir }: { col: string; active: boolean; dir: SortDir }) {
+  if (!active) return <ArrowSortRegular fontSize={14} />
+  return dir === 'desc' ? <ArrowSortDownRegular fontSize={14} /> : <ArrowSortUpRegular fontSize={14} />
 }
 
-export default function Dashboard() {
-  const [lastUpdated, setLastUpdated] = useState(new Date());
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [apiOnline, setApiOnline] = useState(true);
-  const [timeAgoLabel, setTimeAgoLabel] = useState('just now');
+export default function DashboardPage() {
+  const styles = useStyles()
+  const router = useRouter()
 
-  // Keep the "X ago" label ticking
-  useEffect(() => {
-    const id = setInterval(() => setTimeAgoLabel(formatTimeAgo(lastUpdated)), 1000);
-    return () => clearInterval(id);
-  }, [lastUpdated]);
+  const [flags, setFlags] = React.useState<FlaggedStock[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [refreshing, setRefreshing] = React.useState(false)
+  const [apiConnected, setApiConnected] = React.useState(false)
+  const [lastRefreshed, setLastRefreshed] = React.useState<Date | null>(null)
+  const [sortKey, setSortKey] = React.useState<SortKey>('peakScore')
+  const [sortDir, setSortDir] = React.useState<SortDir>('desc')
 
-  const handleRefresh = useCallback(async () => {
-    setIsRefreshing(true);
+  const load = React.useCallback(async (isRefresh = false) => {
+    if (isRefresh) setRefreshing(true)
     try {
-      // TODO: replace with real fetchFlags() / fetchStockDetail() calls
-      await new Promise((res) => setTimeout(res, 700));
-      setApiOnline(true);
-      setLastUpdated(new Date());
+      const [health, data] = await Promise.all([fetchHealth(), fetchFlags()])
+      setApiConnected(health.status === 'ok')
+      setFlags(data)
+      setLastRefreshed(new Date())
     } catch {
-      setApiOnline(false);
+      setApiConnected(false)
     } finally {
-      setIsRefreshing(false);
+      setLoading(false)
+      setRefreshing(false)
     }
-  }, []);
+  }, [])
 
-  const criticalCount = mockAnomalySignals.filter(
-    (s) => s.confidence >= 0.8
-  ).length;
+  React.useEffect(() => { load() }, [load])
+
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) setSortDir((d) => (d === 'desc' ? 'asc' : 'desc'))
+    else { setSortKey(key); setSortDir('desc') }
+  }
+
+  const sorted = React.useMemo(() => {
+    return [...flags].sort((a, b) => {
+      const mul = sortDir === 'desc' ? -1 : 1
+      if (sortKey === 'peakScore') return mul * (a.peakScore - b.peakScore)
+      if (sortKey === 'flaggedDays') return mul * (a.flaggedDays - b.flaggedDays)
+      return mul * a.ticker.localeCompare(b.ticker)
+    })
+  }, [flags, sortKey, sortDir])
+
+  const criticalCount = flags.filter((f) => f.riskTier === 'Critical').length
+  const avgScore = flags.length
+    ? Math.round(flags.reduce((s, f) => s + f.peakScore, 0) / flags.length)
+    : 0
+
+  const lastRefreshedLabel = lastRefreshed
+    ? lastRefreshed.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+    : '—'
+
+  const rowClass = (tier: RiskTier) =>
+    tier === 'Critical' ? mergeClasses(styles.tableRow, styles.tableRowFlagged)
+    : tier === 'High' ? mergeClasses(styles.tableRow, styles.tableRowHigh)
+    : styles.tableRow
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0f1e' }}>
-      <Sidebar />
-      <Header
-        pageTitle="Dashboard"
-        apiOnline={apiOnline}
-        isRefreshing={isRefreshing}
-        onRefresh={handleRefresh}
-      />
+    <AppShell apiConnected={apiConnected}>
+      <main className={styles.page}>
+        <div className={styles.inner}>
+          {/* Page header */}
+          <header className={styles.pageHeader}>
+            <div className={styles.titleBlock}>
+              <Title1 as="h1">Dashboard</Title1>
+              <Caption1 className={styles.subtitle}>
+                Real-time insider trading pattern monitoring across NSE &amp; BSE
+              </Caption1>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: tokens.spacingHorizontalS }}>
+              <span className={styles.timestamp}>
+                Last refreshed: {lastRefreshedLabel}
+              </span>
+              <Button
+                appearance="subtle"
+                icon={refreshing ? <Spinner size="tiny" /> : <ArrowClockwiseRegular />}
+                onClick={() => load(true)}
+                disabled={refreshing}
+                aria-label="Refresh data"
+              >
+                {refreshing ? 'Refreshing…' : 'Refresh'}
+              </Button>
+            </div>
+          </header>
 
-      {/* Main Content */}
-      <main
-        style={{
-          marginLeft: 'var(--sidebar-w, 240px)',
-          paddingTop: '60px',
-          paddingBottom: '2rem',
-        }}
-        className="dashboard-main"
-      >
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+          {/* KPI tiles */}
+          <section aria-label="Key metrics" className={styles.kpiGrid}>
+            {loading ? (
+              Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} aria-label="Loading metric">
+                  <SkeletonItem style={{ height: '96px', borderRadius: tokens.borderRadiusLarge }} />
+                </Skeleton>
+              ))
+            ) : (
+              <>
+                <KpiCard
+                  label="Stocks Monitored"
+                  value={15}
+                  trend="+2 added this week"
+                  trendDir="up"
+                  icon={<BuildingBankRegular fontSize={18} />}
+                  accent="brand"
+                />
+                <KpiCard
+                  label="Flagged Today"
+                  value={flags.length}
+                  trend={`${criticalCount} critical alert${criticalCount !== 1 ? 's' : ''}`}
+                  trendDir={criticalCount > 0 ? 'down' : 'neutral'}
+                  icon={<AlertRegular fontSize={18} />}
+                  accent="warning"
+                />
+                <KpiCard
+                  label="Avg Suspicion Score"
+                  value={avgScore}
+                  trend="Across all flagged stocks"
+                  trendDir="neutral"
+                  icon={<DataTrendingRegular fontSize={18} />}
+                  accent="brand"
+                />
+                <KpiCard
+                  label="Critical Alerts"
+                  value={criticalCount}
+                  trend="+1 since yesterday"
+                  trendDir={criticalCount > 0 ? 'down' : 'neutral'}
+                  icon={<ShieldErrorRegular fontSize={18} />}
+                  accent="danger"
+                />
+              </>
+            )}
+          </section>
 
-          {/* Title row */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '12px',
-              marginTop: '2rem',
-              marginBottom: '2rem',
-            }}
-          >
-            <div>
-              <h1 style={{
-                fontSize: '28px', fontWeight: 600, color: '#f9fafb',
-                margin: 0, letterSpacing: '-0.02em',
-              }}>
-                Dashboard
-              </h1>
-              <p style={{ color: '#6b7280', marginTop: '6px', fontSize: '13px' }}>
-                Real-time monitoring of insider trading patterns across NSE &amp; BSE
-              </p>
+          {/* Flagged stocks table */}
+          <section className={styles.tableSection} aria-label="Top flagged stocks">
+            <div className={styles.tableHeader}>
+              <Body1Strong>Top Flagged Stocks</Body1Strong>
+              <Caption1 style={{ color: tokens.colorNeutralForeground3 }}>
+                Ranked by peak suspicion score — click a row to view full history
+              </Caption1>
             </div>
 
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '6px',
-              fontSize: '11px', color: '#4b5563',
-              background: '#111827', border: '1px solid #1f2937',
-              padding: '6px 12px', borderRadius: '100px',
-            }}>
-              <Clock size={12} />
-              Last updated {timeAgoLabel}
-            </div>
-          </div>
-
-          {/* Stats Grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '1rem',
-              marginBottom: '2rem',
-            }}
-          >
-            <StatCard
-              label="Stocks Monitored"
-              value={dashboardStats.totalStocksMonitored}
-              change={2.5}
-              icon={<BarChart3 size={18} />}
-              color="primary"
-              caption="vs last week"
-              sparkline={[40, 42, 41, 44, 45, 46, 47]}
-            />
-            <StatCard
-              label="Flagged Stocks"
-              value={dashboardStats.flaggedStocks}
-              change={-1.2}
-              icon={<AlertTriangle size={18} />}
-              color="orange"
-              caption="vs last week"
-              sparkline={[9, 8, 8, 7, 6, 7, 6]}
-            />
-            <StatCard
-              label="Critical Alerts"
-              value={dashboardStats.criticalAlerts}
-              change={3.1}
-              icon={<ShieldAlert size={18} />}
-              color="red"
-              caption="vs last week"
-              sparkline={[2, 2, 3, 2, 4, 3, 4]}
-            />
-            <StatCard
-              label="Anomalies Detected"
-              value={dashboardStats.anomaliesDetected}
-              change={5.4}
-              icon={<Activity size={18} />}
-              color="green"
-              caption="vs last week"
-              sparkline={[10, 12, 11, 14, 15, 17, 18]}
-            />
-          </div>
-
-          {/* Charts Grid */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '2fr 1fr',
-              gap: '1.25rem',
-              alignItems: 'start',
-            }}
-            className="charts-grid"
-          >
-            {/* Main Chart */}
-            <CandlestickChart
-              data={mockCandleData}
-              title="Stock Price &amp; Volume"
-              ticker="RELIANCE.NS"
-            />
-
-            {/* Gauge */}
-            <AnomalyGauge
-              score={78}
-              title="RELIANCE.NS"
-              avr="3.2×"
-              car="+9.1%"
-              ifSignal="Anomaly"
-              proximity="4 days"
-            />
-          </div>
-
-          {/* Timeline */}
-          <div style={{ marginTop: '1.25rem' }}>
-            <AnomalyTimeline
-              signals={mockAnomalySignals}
-              title={`Recent Anomaly Signals${criticalCount > 0 ? ` · ${criticalCount} high-confidence` : ''}`}
-            />
-          </div>
+            {loading ? (
+              <div style={{ padding: tokens.spacingVerticalL }}>
+                <Skeleton aria-label="Loading table">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <SkeletonItem key={i} style={{ height: '40px', marginBottom: tokens.spacingVerticalXS }} />
+                  ))}
+                </Skeleton>
+              </div>
+            ) : sorted.length === 0 ? (
+              <div className={styles.emptyState}>
+                <ShieldErrorRegular fontSize={40} />
+                <Body1Strong>No flagged stocks found</Body1Strong>
+                <Caption1>All monitored stocks are within normal parameters.</Caption1>
+              </div>
+            ) : (
+              <div className={styles.tableWrap}>
+                <Table
+                  aria-label="Flagged stocks sorted by score"
+                  size="small"
+                  sortable
+                >
+                  <TableHeader>
+                    <TableRow>
+                      <TableHeaderCell
+                        className={mergeClasses(styles.headerCell)}
+                        onClick={() => handleSort('ticker')}
+                      >
+                        <span className={styles.headerCellInner}>
+                          Ticker
+                          <SortIcon col="ticker" active={sortKey === 'ticker'} dir={sortDir} />
+                        </span>
+                      </TableHeaderCell>
+                      <TableHeaderCell className={styles.mobileHide}>Company</TableHeaderCell>
+                      <TableHeaderCell
+                        className={mergeClasses(styles.headerCell, styles.mobileHide)}
+                        onClick={() => handleSort('peakScore')}
+                      >
+                        <span className={styles.headerCellInner}>
+                          Peak Score
+                          <SortIcon col="peakScore" active={sortKey === 'peakScore'} dir={sortDir} />
+                        </span>
+                      </TableHeaderCell>
+                      <TableHeaderCell>Risk Tier</TableHeaderCell>
+                      <TableHeaderCell className={styles.mobileHide}>Signal Type</TableHeaderCell>
+                      <TableHeaderCell
+                        className={mergeClasses(styles.headerCell, styles.mobileHide)}
+                        onClick={() => handleSort('flaggedDays')}
+                      >
+                        <span className={styles.headerCellInner}>
+                          Flagged Days
+                          <SortIcon col="flaggedDays" active={sortKey === 'flaggedDays'} dir={sortDir} />
+                        </span>
+                      </TableHeaderCell>
+                      <TableHeaderCell className={styles.mobileHide}>Last Flagged</TableHeaderCell>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {sorted.map((f) => (
+                      <TableRow
+                        key={f.ticker}
+                        className={rowClass(f.riskTier)}
+                        onClick={() => router.push(`/stocks/${f.ticker}`)}
+                        aria-label={`View details for ${f.ticker}`}
+                      >
+                        <TableCell>
+                          <TableCellLayout>
+                            <Body1Strong>{f.ticker}</Body1Strong>
+                            <span style={{ display: 'none' }}>{f.exchange}</span>
+                          </TableCellLayout>
+                        </TableCell>
+                        <TableCell className={styles.mobileHide}>
+                          <Caption1 style={{ color: tokens.colorNeutralForeground2 }}>
+                            {f.company}
+                          </Caption1>
+                        </TableCell>
+                        <TableCell className={styles.mobileHide}>
+                          <span className={mergeClasses(styles.score, f.peakScore >= 80 && styles.scoreHigh)}>
+                            {f.peakScore}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <RiskBadge tier={f.riskTier} />
+                        </TableCell>
+                        <TableCell className={styles.mobileHide}>
+                          <Caption1>{f.signalType}</Caption1>
+                        </TableCell>
+                        <TableCell className={styles.mobileHide}>
+                          <Caption1 style={{ fontVariantNumeric: 'tabular-nums' }}>
+                            {f.flaggedDays}d
+                          </Caption1>
+                        </TableCell>
+                        <TableCell className={styles.mobileHide}>
+                          <Caption1 style={{ color: tokens.colorNeutralForeground3 }}>
+                            {f.flaggedDate}
+                          </Caption1>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </section>
         </div>
       </main>
-
-      <style>{`
-        @media (max-width: 1024px) {
-          .charts-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-        @media (max-width: 768px) {
-          .dashboard-main {
-            margin-left: 0 !important;
-          }
-        }
-      `}</style>
-    </div>
-  );
+    </AppShell>
+  )
 }

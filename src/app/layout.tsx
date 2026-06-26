@@ -1,21 +1,23 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from 'next'
+import './globals.css'
+import { Providers } from './providers'
 
 export const metadata: Metadata = {
-  title: 'Insider Trading Pattern Detector',
-  description: 'Advanced dashboard for detecting insider trading patterns',
-};
+  title: 'TradeWatch — Insider Trading Monitor',
+  description:
+    'Real-time monitoring and pattern detection for insider trading activity across NSE & BSE listed companies.',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="bg-background">
-      <body className="text-foreground">
-        {children}
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }
