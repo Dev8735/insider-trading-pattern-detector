@@ -33,6 +33,14 @@ import yfinance as yf
 # 38 stocks across 8 sectors — Defence, Power, CapGoods, Pharma,
 # Chemicals, NBFC, Railways, Auto (RITES and TEXRAIL appear in both
 # CapGoods and Railways in the original list — deduplicated here)
+# ──────────────────────────────────────────────────────────────────────────
+# STOCK UNIVERSE — 39 NSE stocks across 8 sectors
+# Source: user-defined sector basket (no large-cap index stocks)
+# NOTE : RITES and TEXRAIL appear in both CapGoods and Railways in the
+#        original list — they are included once here (deduplicated).
+#        PIGL (Power & Instrumentation Gujarat) was listed Apr 2018,
+#        so yfinance will return ~8 years of data for it instead of 10.
+# ──────────────────────────────────────────────────────────────────────────
 TICKERS = [
     # ── Defence ──────────────────────────────────────────────────────────────
     "PARAS.NS",        # Paras Defence and Space Technologies
@@ -46,13 +54,14 @@ TICKERS = [
     "GENUSPOWER.NS",   # Genus Power Infrastructures
     "SKIPPER.NS",      # Skipper
     "RTNPOWER.NS",     # RattanIndia Power
+    "PIGL.NS",         # Power & Instrumentation (Gujarat) — listed Apr 2018
 
     # ── Capital Goods ─────────────────────────────────────────────────────────
     "CGPOWER.NS",      # CG Power & Industrial Solutions
     "APARINDS.NS",     # Apar Industries
-    "RITES.NS",        # RITES (also Railways — not duplicated)
+    "RITES.NS",        # RITES (also in Railways — not duplicated below)
     "VESUVIUS.NS",     # Vesuvius India
-    "TEXRAIL.NS",      # Texmaco Rail & Engineering (also Railways — not duplicated)
+    "TEXRAIL.NS",      # Texmaco Rail & Engineering (also in Railways — not duplicated)
 
     # ── Pharma ────────────────────────────────────────────────────────────────
     "LAURUSLABS.NS",   # Laurus Labs
@@ -79,6 +88,7 @@ TICKERS = [
     "TITAGARH.NS",     # Titagarh Rail Systems
     "RVNL.NS",         # Rail Vikas Nigam
     "IRCON.NS",        # Ircon International
+    # RITES and TEXRAIL already listed under CapGoods above
 
     # ── Auto ──────────────────────────────────────────────────────────────────
     "SONACOMS.NS",     # Sona BLW Precision Forgings

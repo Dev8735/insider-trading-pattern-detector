@@ -72,9 +72,9 @@ VOL_SPIKE_RATIO = 2.0
 TICKERS = [
     # Defence
     "PARAS", "DATAPATTNS", "ASTRAMICRO", "SIKAINTERP", "AVANTEL",
-    # Power
-    "CESC", "GENUSPOWER", "SKIPPER", "RTNPOWER",
-    # Capital Goods (RITES and TEXRAIL also cover Railways - not duplicated)
+    # Power (PIGL = Power & Instrumentation Gujarat, listed Apr 2018)
+    "CESC", "GENUSPOWER", "SKIPPER", "RTNPOWER", "PIGL",
+    # Capital Goods (RITES and TEXRAIL also cover Railways — not duplicated)
     "CGPOWER", "APARINDS", "RITES", "VESUVIUS", "TEXRAIL",
     # Pharma
     "LAURUSLABS", "AARTIDRUGS", "INNOVACAP", "SOLARA", "FDC",
@@ -82,7 +82,7 @@ TICKERS = [
     "AARTIIND", "DEEPAKNTR", "NEONAMINES", "BALAMINES", "PRIVISCL",
     # NBFC
     "POONAWALLA", "FIVESTAR", "MUTHOOTFIN", "CHOLAFIN", "FEDFINA",
-    # Railways
+    # Railways (RITES and TEXRAIL already above — not duplicated)
     "TITAGARH", "RVNL", "IRCON",
     # Auto
     "SONACOMS", "ENDURANCE", "MSUMI", "TUBEINVEST", "BHARATFORG",
