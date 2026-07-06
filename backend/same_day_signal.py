@@ -652,7 +652,9 @@ def _make_test_df(n: int = 400, seed: int = 1) -> pd.DataFrame:
     vs    = rng.integers(0, 2, n)
     rz    = rng.normal(0.0, 0.8, n)
     if_f  = np.zeros(n, dtype=int)
-    for idx in [80, 180, 280, 360]:
+    for idx in [int(n*0.20), int(n*0.45), int(n*0.70), int(n*0.90)]:
+        if idx >= n:
+            continue
         if_f[idx] = 1
         avr[idx]  = 4.5
         car[idx]  = 0.08
