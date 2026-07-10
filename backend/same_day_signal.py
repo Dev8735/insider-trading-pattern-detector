@@ -67,9 +67,9 @@ EMA_SPAN       = 20    # EMA span for smoothed baseline
 # ── Same-day trigger thresholds ───────────────────────────────────────────────
 # These are checked ONLY on today's single candle — zero lag.
 MIN_BODY_SIZE_PCT    = 0.005   # body must be ≥0.5% of open price (filters doji)
-MIN_VOLUME_SURGE     = 1.5     # today's volume ≥ 1.5× the 5-day average
-MIN_BASELINE_AVR     = 1.8     # rolling AVR baseline must be elevated
-MIN_CANDLE_SCORE     = 0.55    # combined candle quality score threshold (0-1)
+MIN_VOLUME_SURGE     = 1.6     # strong volume confirmation, tuned to real data
+MIN_BASELINE_AVR     = 2.0     # ~90th percentile — top 10% of days, tuned to real CGPOWER data
+MIN_CANDLE_SCORE     = 0.55    # quality filter — filters weak candles
 
 # ── Signal quality thresholds ─────────────────────────────────────────────────
 BUY_RETURN_THRESHOLD  =  0.30   # >30% 6M return = confirmed BUY quality
@@ -389,9 +389,9 @@ def run_second_stage(df: pd.DataFrame, ticker: str) -> tuple:
     df["RF_Quality_Score"]  = 0.0
     df["RF_Final_Signal"]   = "NO_SIGNAL"
 
-    if len(train_labeled) < 8:
+    if len(train_labeled) < 3:
         print(f"    Warning: only {len(train_labeled)} labeled training "
-              f"signals for {ticker} — need ≥8. Skipping Stage 2.")
+              f"signals for {ticker} — need ≥3. Skipping Stage 2.")
         df.loc[df["Signal_Raw"] == 1,  "RF_Final_Signal"] = "BUY_UNSCORED"
         df.loc[df["Signal_Raw"] == -1, "RF_Final_Signal"] = "SELL_UNSCORED"
         return df, {}
