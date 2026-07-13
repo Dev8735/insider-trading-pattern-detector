@@ -1,0 +1,2 @@
+Ticker,Date,Close,Signal_Label,RF_Final_Signal,RF_Quality_Score,Trigger_Candle_Dir,Trigger_Body_Pct,Trigger_Volume_Surge,Trigger_Candle_Score,Baseline_AVR_EMA,Signal_Quality
+BHARATFORG,2020-06-08,349.26,BUY,BUY_UNSCORED,0.0,1,0.025305,1.762,0.66,2.020498943374328,1

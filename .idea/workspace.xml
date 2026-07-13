@@ -5,35 +5,152 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9ca43e7b-94dc-48e2-9dd2-bf9651a63009" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/enhanced_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/quality_signals.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/backtest.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backtest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/BAJFINANCE_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/BAJFINANCE_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/HDFCBANK_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/HDFCBANK_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/INFY_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/INFY_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/RELIANCE_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/RELIANCE_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/SUNPHARMA_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/SUNPHARMA_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/TCS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/TCS_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/data/raw/WIPRO_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/backend/data/raw/WIPRO_ohlcv.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/ADANIENT_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/BAJFINANCE_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/HDFCBANK_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/INFY_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/RELIANCE_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/SUNPHARMA_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/TCS_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/processed/WIPRO_features.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/ADANIENT_ohlcv.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/BAJFINANCE_ohlcv.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/HDFCBANK_ohlcv.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/INFY_ohlcv.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/signal_report.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/signal_report.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/AARTIDRUGS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/AARTIDRUGS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/AARTIIND_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/AARTIIND_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/APARINDS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/APARINDS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/ASTRAMICRO_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/ASTRAMICRO_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/AVANTEL_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/AVANTEL_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/BALAMINES_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/BALAMINES_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/BHARATFORG_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/BHARATFORG_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/CESC_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/CESC_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/CGPOWER_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/CGPOWER_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/CHOLAFIN_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/CHOLAFIN_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/DATAPATTNS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/DATAPATTNS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/DEEPAKNTR_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/DEEPAKNTR_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/ENDURANCE_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/ENDURANCE_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/FDC_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/FDC_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/FEDFINA_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/FEDFINA_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/FIVESTAR_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/FIVESTAR_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/GENUSPOWER_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/GENUSPOWER_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/INNOVACAP_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/INNOVACAP_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/IRCON_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/IRCON_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/LAURUSLABS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/LAURUSLABS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/MSUMI_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/MSUMI_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/MUTHOOTFIN_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/MUTHOOTFIN_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/PARAS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/PARAS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/PIGL_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/PIGL_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/POONAWALLA_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/POONAWALLA_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/PRIVISCL_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/PRIVISCL_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/RITES_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/RITES_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/RTNPOWER_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/RTNPOWER_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/RVNL_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/RVNL_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/SKIPPER_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/SKIPPER_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/SOLARA_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/SOLARA_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/SONACOMS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/SONACOMS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/TEXRAIL_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/TEXRAIL_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/TITAGARH_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/TITAGARH_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/processed/VESUVIUS_features.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/processed/VESUVIUS_features.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/AARTIDRUGS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/AARTIDRUGS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/AARTIIND_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/AARTIIND_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/APARINDS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/APARINDS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/ASTRAMICRO_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/ASTRAMICRO_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/AVANTEL_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/AVANTEL_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/BALAMINES_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/BALAMINES_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/BHARATFORG_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/BHARATFORG_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/CESC_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/CESC_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/CGPOWER_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/CGPOWER_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/CHOLAFIN_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/CHOLAFIN_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/DATAPATTNS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/DATAPATTNS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/DEEPAKNTR_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/DEEPAKNTR_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/ENDURANCE_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/ENDURANCE_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/FDC_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/FDC_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/FEDFINA_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/FEDFINA_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/FIVESTAR_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/FIVESTAR_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/GENUSPOWER_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/GENUSPOWER_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/INNOVACAP_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/INNOVACAP_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/IRCON_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/IRCON_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/LAURUSLABS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/LAURUSLABS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/MSUMI_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/MSUMI_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/MUTHOOTFIN_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/MUTHOOTFIN_ohlcv.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/raw/NIFTY50_benchmark.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/NIFTY50_benchmark.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/RELIANCE_ohlcv.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/SUNPHARMA_ohlcv.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/TCS_ohlcv.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/raw/WIPRO_ohlcv.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/PARAS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/PARAS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/PIGL_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/PIGL_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/POONAWALLA_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/POONAWALLA_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/PRIVISCL_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/PRIVISCL_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/RITES_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/RITES_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/RTNPOWER_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/RTNPOWER_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/RVNL_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/RVNL_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/SKIPPER_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/SKIPPER_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/SOLARA_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/SOLARA_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/SONACOMS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/SONACOMS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/TEXRAIL_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/TEXRAIL_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/TITAGARH_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/TITAGARH_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw/VESUVIUS_ohlcv.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw/VESUVIUS_ohlcv.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/AARTIDRUGS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/AARTIDRUGS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/AARTIIND_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/AARTIIND_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/APARINDS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/APARINDS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/ASTRAMICRO_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/ASTRAMICRO_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/AVANTEL_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/AVANTEL_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/BALAMINES_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/BALAMINES_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/BHARATFORG_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/BHARATFORG_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/CESC_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/CESC_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/CGPOWER_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/CGPOWER_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/CHOLAFIN_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/CHOLAFIN_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/DATAPATTNS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/DATAPATTNS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/DEEPAKNTR_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/DEEPAKNTR_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/ENDURANCE_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/ENDURANCE_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/FDC_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/FDC_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/FEDFINA_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/FEDFINA_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/FIVESTAR_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/FIVESTAR_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/GENUSPOWER_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/GENUSPOWER_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/INNOVACAP_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/INNOVACAP_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/IRCON_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/IRCON_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/LAURUSLABS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/LAURUSLABS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/MSUMI_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/MSUMI_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/MUTHOOTFIN_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/MUTHOOTFIN_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/PARAS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/PARAS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/PIGL_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/PIGL_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/POONAWALLA_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/POONAWALLA_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/PRIVISCL_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/PRIVISCL_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/RITES_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/RITES_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/RTNPOWER_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/RTNPOWER_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/RVNL_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/RVNL_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/SKIPPER_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/SKIPPER_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/SOLARA_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/SOLARA_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/SONACOMS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/SONACOMS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/TEXRAIL_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/TEXRAIL_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/TITAGARH_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/TITAGARH_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/VESUVIUS_predictions.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/VESUVIUS_predictions.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_AARTIDRUGS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_AARTIDRUGS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_AARTIIND.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_AARTIIND.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_APARINDS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_APARINDS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_ASTRAMICRO.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_ASTRAMICRO.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_AVANTEL.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_AVANTEL.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_BALAMINES.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_BALAMINES.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_BHARATFORG.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_BHARATFORG.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_CESC.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_CESC.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_CGPOWER.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_CGPOWER.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_CHOLAFIN.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_CHOLAFIN.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_DATAPATTNS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_DATAPATTNS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_DEEPAKNTR.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_DEEPAKNTR.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_ENDURANCE.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_ENDURANCE.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_FDC.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_FDC.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_FEDFINA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_FEDFINA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_FIVESTAR.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_FIVESTAR.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_GENUSPOWER.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_GENUSPOWER.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_INNOVACAP.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_INNOVACAP.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_IRCON.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_IRCON.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_LAURUSLABS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_LAURUSLABS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_MSUMI.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_MSUMI.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_MUTHOOTFIN.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_MUTHOOTFIN.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_PARAS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_PARAS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_PIGL.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_PIGL.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_POONAWALLA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_POONAWALLA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_PRIVISCL.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_PRIVISCL.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_RITES.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_RITES.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_RTNPOWER.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_RTNPOWER.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_RVNL.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_RVNL.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_SKIPPER.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_SKIPPER.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_SOLARA.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_SOLARA.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_SONACOMS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_SONACOMS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_TEXRAIL.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_TEXRAIL.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_TITAGARH.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_TITAGARH.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/enhanced_signals_VESUVIUS.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/enhanced_signals_VESUVIUS.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/model_performance.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/model_performance.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/quality_signals_all.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/quality_signals_all.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/results/stock_suitability.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/results/stock_suitability.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,13 +186,15 @@
     &quot;Python tests.Python tests in enhanced_model.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in features.py.executor&quot;: &quot;Run&quot;,
     &quot;Python tests.Python tests in ingest.py.executor&quot;: &quot;Run&quot;,
+    &quot;Python tests.Python tests in same_day_signal.py.executor&quot;: &quot;Run&quot;,
     &quot;Python.backtest.executor&quot;: &quot;Run&quot;,
     &quot;Python.daily_scheduler.executor&quot;: &quot;Run&quot;,
     &quot;Python.quality_signals.executor&quot;: &quot;Run&quot;,
     &quot;Python.train_test_predict.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Internship/netmind-ai&quot;
   }
 }</component>
   <component name="SharedIndexes">
