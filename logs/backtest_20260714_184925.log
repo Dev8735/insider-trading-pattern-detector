@@ -1,0 +1,4 @@
+2026-07-14 18:49:25,469 [INFO] Starting backtest framework
+2026-07-14 18:49:25,469 [INFO] Configuration loaded from config.yaml
+2026-07-14 18:49:26,211 [INFO] Loaded OHLCV data for 36 symbols
+2026-07-14 18:49:26,211 [WARNING] Benchmark file not found: data\benchmark\NIFTY50.csv

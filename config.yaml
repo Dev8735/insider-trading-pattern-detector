@@ -1,0 +1,24 @@
+# ──────────────────────────────────────────────
+# Combinational TP/SL Backtest Configuration
+# ──────────────────────────────────────────────
+
+# Capital
+initial_capital: 100000
+capital_per_trade: 25000
+
+# TP/SL grid (percentages)
+tp_values: [10, 12, 15, 20, 22, 25, 27, 30, 35, 40, 50, 55, 60]
+sl_values: [5, 7, 8, 10, 12, 15]
+
+# Trailing mechanism
+trailing_sl_values: [0, 3, 5, 7, 10]   # 0 = no trailing; otherwise trail % below peak
+trailing_tp_mode: true                   # true = don't exit at TP, let trailing SL ride the trend
+
+# Trade rules
+max_holding_days: 60          # Force-exit at close after N days
+same_candle_logic: "conservative"  # SL wins if both TP & SL hit on same candle
+
+# Data paths
+data_raw_dir: "data/raw"
+signal_file: "data/results/signal_report.csv"
+output_dir: "data/reports"
