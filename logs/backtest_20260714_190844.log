@@ -1,0 +1,4 @@
+2026-07-14 19:08:44,541 [INFO] Starting backtest framework
+2026-07-14 19:08:44,541 [INFO] Configuration loaded from config.yaml
+2026-07-14 19:08:44,898 [INFO] Loaded OHLCV data for 36 symbols
+2026-07-14 19:08:44,907 [INFO] Loaded benchmark from data\benchmark\NIFTY50.csv
