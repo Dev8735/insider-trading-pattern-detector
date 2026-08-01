@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Search, ScrollText, Eye } from 'lucide-react'
+import { LayoutDashboard, Search, ScrollText, Eye, Zap, Trophy, BarChart3 } from 'lucide-react'
 import { useApiStatus } from '@/context/ApiStatusContext'
 import { Pill } from './RiskPill'
 import { cx } from '@/lib/utils'
@@ -10,6 +10,9 @@ import { cx } from '@/lib/utils'
 const NAV = [
   { label: 'Dashboard', href: '/', icon: LayoutDashboard },
   { label: 'Stocks Explorer', href: '/stocks', icon: Search },
+  { label: 'Quality Signals', href: '/quality-signals', icon: Zap },
+  { label: 'Suitability', href: '/suitability', icon: Trophy },
+  { label: 'Analytics', href: '/analytics', icon: BarChart3 },
   { label: 'Historical Log', href: '/history', icon: ScrollText },
 ]
 

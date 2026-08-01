@@ -62,6 +62,60 @@ export interface StockSummary {
   riskTier: RiskTier
 }
 
+// Endpoint 6: GET /quality-signals/config/defaults → default slider values
+export interface QualitySignalsDefaults {
+  min_window_score: number       // e.g. 60
+  min_forward_return_pct: number // e.g. 15
+  min_signals_in_window: number  // e.g. 3
+  avr_threshold: number          // e.g. 2.5
+}
+
+// Endpoint 7: GET /quality-signals → all stocks with quality signals
+export interface QualitySignal {
+  ticker: string
+  company: string
+  sector: string
+  window_score: number
+  forward_return_pct: number
+  signals_in_window: number
+  avr_avg: number
+  suitable: boolean
+  quality_tier: 'High' | 'Medium' | 'Low' | 'Poor'
+}
+
+// Endpoint 8: GET /quality-signals/{ticker} → one stock quality signals
+export interface StockQualitySignal extends QualitySignal {
+  detailed_analysis?: string
+}
+
+// Endpoint 9: GET /quality-signals/suitability → all stocks ranked by suitability
+export interface SuitabilityRanking {
+  ticker: string
+  company: string
+  sector: string
+  suitability_score: number      // 0-100 composite score
+  quality_tier: 'High' | 'Medium' | 'Low' | 'Poor'
+  window_score: number
+  forward_return_pct: number
+  recommended: boolean           // true if meets all criteria
+}
+
+// Endpoint 10: GET /backtest → forward return analysis all stocks
+export interface BacktestResult {
+  ticker: string
+  company: string
+  avg_forward_return_pct: number
+  max_forward_return_pct: number
+  min_forward_return_pct: number
+  win_rate_pct: number
+  sample_size: number
+}
+
+// Endpoint 11: GET /backtest/{ticker} → forward return for one stock
+export interface StockBacktestResult extends BacktestResult {
+  return_distribution?: number[]  // optional distribution histogram
+}
+
 // Shared types
 export type RiskTier = 'Critical' | 'High' | 'Medium' | 'Low' | 'Clean'
 

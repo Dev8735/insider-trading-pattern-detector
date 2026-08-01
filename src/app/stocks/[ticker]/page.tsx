@@ -9,9 +9,9 @@ import { SummaryCard, SummaryGrid } from '@/components/SummaryCard'
 import { DataTable, type Column } from '@/components/DataTable'
 import { RiskPill, Pill } from '@/components/RiskPill'
 import { DemoBadge } from '@/components/DemoBadge'
-import { getStockHistory, getStockSummary } from '@/lib/api'
+import { getStockHistory, getStockSummary, getStockBacktest } from '@/lib/api'
 import { formatDate } from '@/lib/utils'
-import type { DayRecord, StockHistoryResponse, StockSummary } from '@/lib/types'
+import type { DayRecord, StockHistoryResponse, StockSummary, StockBacktestResult } from '@/lib/types'
 
 export default function StockDetailPage() {
   const params = useParams<{ ticker: string }>()
@@ -21,19 +21,23 @@ export default function StockDetailPage() {
 
   const [summary, setSummary] = React.useState<StockSummary | null>(null)
   const [history, setHistory] = React.useState<StockHistoryResponse | null>(null)
+  const [backtest, setBacktest] = React.useState<StockBacktestResult | null>(null)
   const [loading, setLoading] = React.useState(true)
   const [demo, setDemo] = React.useState(false)
 
   React.useEffect(() => {
     let active = true
     setLoading(true)
-    Promise.all([getStockSummary(ticker), getStockHistory(ticker)]).then(([s, h]) => {
-      if (!active) return
-      setSummary(s.data)
-      setHistory(h.data)
-      setDemo(s.demo || h.demo)
-      setLoading(false)
-    })
+    Promise.all([getStockSummary(ticker), getStockHistory(ticker), getStockBacktest(ticker)]).then(
+      ([s, h, b]) => {
+        if (!active) return
+        setSummary(s.data)
+        setHistory(h.data)
+        setBacktest(b.data)
+        setDemo(s.demo || h.demo || b.demo)
+        setLoading(false)
+      },
+    )
     return () => {
       active = false
     }
@@ -145,6 +149,25 @@ export default function StockDetailPage() {
               ? `Last flagged ${formatDate(summary.lastFlaggedDate)}`
               : 'No days above threshold'
           }
+          loading={loading}
+        />
+        <SummaryCard
+          label="Avg Forward Return"
+          value={`${backtest?.avg_forward_return_pct.toFixed(2) ?? 0}%`}
+          hint="Historical average"
+          loading={loading}
+          accent={
+            backtest && backtest.avg_forward_return_pct >= 0 ? (
+              <Pill color="green">Positive</Pill>
+            ) : (
+              <Pill color="red">Negative</Pill>
+            )
+          }
+        />
+        <SummaryCard
+          label="Win Rate"
+          value={`${backtest?.win_rate_pct.toFixed(1) ?? 0}%`}
+          hint={`${backtest?.sample_size ?? 0} events`}
           loading={loading}
         />
       </SummaryGrid>

@@ -6,6 +6,12 @@ import type {
   StockHistoryResponse,
   StockSummary,
   DayRecord,
+  QualitySignalsDefaults,
+  QualitySignal,
+  StockQualitySignal,
+  SuitabilityRanking,
+  BacktestResult,
+  StockBacktestResult,
 } from './types'
 
 // Base URL for Person A's FastAPI backend.
@@ -190,5 +196,108 @@ export async function getStockSummary(
   } catch (err) {
     console.log('[v0] getStockSummary fell back to mock:', (err as Error).message)
     return { data: buildSummary(ticker), demo: true }
+  }
+}
+
+// Endpoint 6: GET /quality-signals/config/defaults → default slider values
+export async function getQualitySignalsDefaults(): Promise<ApiResult<QualitySignalsDefaults>> {
+  try {
+    const data = await getJSON<QualitySignalsDefaults>('/quality-signals/config/defaults')
+    return { data, demo: false }
+  } catch (err) {
+    console.log('[v0] getQualitySignalsDefaults fell back to mock:', (err as Error).message)
+    return {
+      data: {
+        min_window_score: 60,
+        min_forward_return_pct: 15,
+        min_signals_in_window: 3,
+        avr_threshold: 2.5,
+      },
+      demo: true,
+    }
+  }
+}
+
+// Endpoint 7: GET /quality-signals → all stocks with quality signals (configurable)
+export async function getQualitySignals(
+  params?: Partial<QualitySignalsDefaults>,
+): Promise<ApiResult<QualitySignal[]>> {
+  try {
+    const query = params ? new URLSearchParams(Object.entries(params).map(([k, v]) => [k, String(v)])).toString() : ''
+    const data = await getJSON<QualitySignal[]>(`/quality-signals${query ? `?${query}` : ''}`)
+    return { data, demo: false }
+  } catch (err) {
+    console.log('[v0] getQualitySignals fell back to mock:', (err as Error).message)
+    return { data: [], demo: true }
+  }
+}
+
+// Endpoint 8: GET /quality-signals/{ticker} → one stock quality signals
+export async function getStockQualitySignal(ticker: string): Promise<ApiResult<StockQualitySignal>> {
+  try {
+    const data = await getJSON<StockQualitySignal>(
+      `/quality-signals/${encodeURIComponent(ticker)}`,
+    )
+    return { data, demo: false }
+  } catch (err) {
+    console.log('[v0] getStockQualitySignal fell back to mock:', (err as Error).message)
+    return {
+      data: {
+        ticker: ticker.toUpperCase(),
+        company: ticker,
+        sector: 'Unknown',
+        window_score: 0,
+        forward_return_pct: 0,
+        signals_in_window: 0,
+        avr_avg: 0,
+        suitable: false,
+        quality_tier: 'Poor',
+      },
+      demo: true,
+    }
+  }
+}
+
+// Endpoint 9: GET /quality-signals/suitability → all stocks ranked by suitability
+export async function getSuitabilityRanking(): Promise<ApiResult<SuitabilityRanking[]>> {
+  try {
+    const data = await getJSON<SuitabilityRanking[]>('/quality-signals/suitability')
+    return { data, demo: false }
+  } catch (err) {
+    console.log('[v0] getSuitabilityRanking fell back to mock:', (err as Error).message)
+    return { data: [], demo: true }
+  }
+}
+
+// Endpoint 10: GET /backtest → forward return analysis all stocks
+export async function getBacktestResults(): Promise<ApiResult<BacktestResult[]>> {
+  try {
+    const data = await getJSON<BacktestResult[]>('/backtest')
+    return { data, demo: false }
+  } catch (err) {
+    console.log('[v0] getBacktestResults fell back to mock:', (err as Error).message)
+    return { data: [], demo: true }
+  }
+}
+
+// Endpoint 11: GET /backtest/{ticker} → forward return for one stock
+export async function getStockBacktest(ticker: string): Promise<ApiResult<StockBacktestResult>> {
+  try {
+    const data = await getJSON<StockBacktestResult>(`/backtest/${encodeURIComponent(ticker)}`)
+    return { data, demo: false }
+  } catch (err) {
+    console.log('[v0] getStockBacktest fell back to mock:', (err as Error).message)
+    return {
+      data: {
+        ticker: ticker.toUpperCase(),
+        company: ticker,
+        avg_forward_return_pct: 0,
+        max_forward_return_pct: 0,
+        min_forward_return_pct: 0,
+        win_rate_pct: 0,
+        sample_size: 0,
+      },
+      demo: true,
+    }
   }
 }
