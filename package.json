@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/harshpasiya/insider-trading-pattern-detector#readme",
   "dependencies": {
+    "@fluentui/react-components": "^9.74.2",
+    "@fluentui/react-icons": "^2.0.330",
     "@tailwindcss/postcss": "^4.3.1",
     "autoprefixer": "^10.5.0",
     "clsx": "^2.1.1",
