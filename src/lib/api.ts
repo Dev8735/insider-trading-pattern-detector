@@ -12,11 +12,14 @@ import type {
   SuitabilityRanking,
   BacktestResult,
   StockBacktestResult,
+  RiskTier,
 } from './types'
 
-// Base URL for Person A's FastAPI backend.
-// Run locally with: uvicorn backend.api:app --reload --port 8000
-const BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+// Browser requests use the same-origin proxy to avoid CORS issues with the
+// Cloudflare tunnel. Server-side requests go directly to the configured backend.
+const BASE = typeof window !== 'undefined'
+  ? '/api/backend'
+  : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000')
 
 // Short timeout so pages degrade quickly to demo data if the backend is down.
 const TIMEOUT_MS = 4000
@@ -136,6 +139,69 @@ function buildSummary(ticker: string): StockSummary {
 
 // ─── Live fetch functions (real backend, mock fallback) ──────────────────────
 
+function riskTier(score: number): RiskTier {
+  if (score >= 85) return 'Critical'
+  if (score >= 70) return 'High'
+  if (score >= 50) return 'Medium'
+  if (score >= 30) return 'Low'
+  return 'Clean'
+}
+
+function exchangeFor(ticker: string): 'NSE' | 'BSE' {
+  return ticker.endsWith('.BO') ? 'BSE' : 'NSE'
+}
+
+function stockMetadata(ticker: string) {
+  const mock = mockStocks.find((stock) => stock.ticker === ticker.toUpperCase())
+  return {
+    company: mock?.company ?? ticker.toUpperCase(),
+    sector: mock?.sector ?? 'Equity',
+    exchange: mock?.exchange ?? exchangeFor(ticker),
+  }
+}
+
+// The live API currently returns compact payloads (tickers[] and flagged_stocks[])
+// while the UI uses richer view models. Normalize them at this boundary so every
+// page stays typed and the backend can evolve without duplicating mapping logic.
+function normalizeStocks(payload: unknown): StockListItem[] {
+  const tickers = Array.isArray(payload)
+    ? payload
+    : (payload as { tickers?: unknown[] })?.tickers ?? []
+  return tickers.map((value) => {
+    const ticker = String(typeof value === 'string' ? value : (value as { ticker?: string }).ticker ?? '')
+    const metadata = stockMetadata(ticker)
+    const mock = mockStocks.find((stock) => stock.ticker === ticker)
+    return {
+      ticker,
+      ...metadata,
+      riskTier: mock?.riskTier ?? 'Clean',
+      lastFlagged: mock?.lastFlagged ?? null,
+      latestScore: mock?.latestScore ?? 0,
+    }
+  })
+}
+
+function normalizeFlags(payload: unknown): FlaggedStock[] {
+  const flags = Array.isArray(payload)
+    ? payload
+    : (payload as { flagged_stocks?: unknown[] })?.flagged_stocks ?? []
+  return flags.map((value) => {
+    const item = value as { ticker?: string; peak_score?: number; peak_date?: string; flagged_days?: number }
+    const ticker = item.ticker ?? ''
+    const metadata = stockMetadata(ticker)
+    const mock = mockFlags.find((flag) => flag.ticker === ticker)
+    return {
+      ticker,
+      ...metadata,
+      peakScore: Number(item.peak_score ?? 0),
+      riskTier: riskTier(Number(item.peak_score ?? 0)),
+      flaggedDate: item.peak_date ?? mock?.flaggedDate ?? '',
+      signalType: mock?.signalType ?? 'Suspicion score spike',
+      flaggedDays: Number(item.flagged_days ?? 0),
+    }
+  })
+}
+
 // Endpoint 1: GET /  → { status: "ok", ... }
 export async function checkHealth(): Promise<boolean> {
   try {
@@ -149,8 +215,8 @@ export async function checkHealth(): Promise<boolean> {
 // Endpoint 2: GET /stocks → list of all tracked tickers
 export async function getStocks(): Promise<ApiResult<StockListItem[]>> {
   try {
-    const data = await getJSON<StockListItem[]>('/stocks')
-    return { data, demo: false }
+    const payload = await getJSON<unknown>('/stocks')
+    return { data: normalizeStocks(payload), demo: false }
   } catch (err) {
     console.log('[v0] getStocks fell back to mock:', (err as Error).message)
     return { data: mockStocks, demo: true }
@@ -160,8 +226,8 @@ export async function getStocks(): Promise<ApiResult<StockListItem[]>> {
 // Endpoint 3: GET /flags → top suspicious stocks ranked by peak Suspicion_Score
 export async function getFlags(): Promise<ApiResult<FlaggedStock[]>> {
   try {
-    const data = await getJSON<FlaggedStock[]>('/flags')
-    return { data, demo: false }
+    const payload = await getJSON<unknown>('/flags')
+    return { data: normalizeFlags(payload), demo: false }
   } catch (err) {
     console.log('[v0] getFlags fell back to mock:', (err as Error).message)
     return { data: mockFlags, demo: true }
@@ -189,9 +255,23 @@ export async function getStockSummary(
   ticker: string,
 ): Promise<ApiResult<StockSummary>> {
   try {
-    const data = await getJSON<StockSummary>(
-      `/stock/${encodeURIComponent(ticker)}/summary`,
-    )
+    const payload = await getJSON<{
+      ticker: string
+      latest_date?: string
+      latest_score?: number
+      peak_score?: number
+      total_flagged_days?: number
+    }>(`/stock/${encodeURIComponent(ticker)}/summary`)
+    const metadata = stockMetadata(payload.ticker ?? ticker)
+    const data: StockSummary = {
+      ticker: payload.ticker ?? ticker.toUpperCase(),
+      ...metadata,
+      latestScore: Number(payload.latest_score ?? 0),
+      peakScore: Number(payload.peak_score ?? 0),
+      flaggedDays: Number(payload.total_flagged_days ?? 0),
+      lastFlaggedDate: payload.latest_date ?? null,
+      riskTier: riskTier(Number(payload.peak_score ?? 0)),
+    }
     return { data, demo: false }
   } catch (err) {
     console.log('[v0] getStockSummary fell back to mock:', (err as Error).message)
