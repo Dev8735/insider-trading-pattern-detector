@@ -336,6 +336,24 @@ def run_backtest_all(min_score: float = DEFAULT_MIN_SCORE) -> list[dict]:
 router = APIRouter(prefix="/backtest", tags=["Backtest"])
 
 
+def _sanitize_nans(obj):
+    """
+    Recursively replaces NaN/Infinity floats with None throughout a
+    dict/list structure. Real-world Close-price data occasionally has
+    gaps, which propagate into NaN forward-return values that Python's
+    default JSON encoder cannot serialize (raises ValueError instead of
+    emitting `null`). Applied at the router boundary only — run_backtest()
+    / run_backtest_all() themselves are left untouched.
+    """
+    if isinstance(obj, float) and (obj != obj or obj in (float("inf"), float("-inf"))):
+        return None
+    if isinstance(obj, dict):
+        return {k: _sanitize_nans(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize_nans(v) for v in obj]
+    return obj
+
+
 @router.get("/")
 def get_backtest_all(min_score: float = DEFAULT_MIN_SCORE):
     """
@@ -353,11 +371,11 @@ def get_backtest_all(min_score: float = DEFAULT_MIN_SCORE):
             status_code=404,
             detail="No processed stock data found. Run the full pipeline first."
         )
-    return {
+    return _sanitize_nans({
         "min_score_used": min_score,
         "stocks_analysed": len(results),
         "results": results,
-    }
+    })
 
 
 @router.get("/{ticker}")
@@ -382,7 +400,7 @@ def get_backtest_ticker(ticker: str, min_score: float = DEFAULT_MIN_SCORE):
             detail=f"No data found for '{ticker}'. Run the pipeline first."
         )
 
-    return result
+    return _sanitize_nans(result)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
