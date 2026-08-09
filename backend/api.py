@@ -53,16 +53,36 @@ import os
 import sys
 import unittest
 
-import app
 import pandas as pd
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.testclient import TestClient
+
+from backend.backtest import router as backtest_router
+from backend.quality_signals_api import router as quality_router
+
 PROCESSED_DIR = "data/processed"
 
 # Columns that must exist in a stock's CSV for it to be servable by this API.
 # These come from the full pipeline: features.py + isolation_forest.py + scoring.py.
 REQUIRED_COLUMNS = ["Date", "Suspicion_Score", "Suspicion_Flag"]
+
+
+def _sanitize_nans(obj):
+    """
+    Recursively replaces NaN/Infinity floats with None throughout a
+    dict/list structure. Early rows of the feature pipeline (before rolling
+    windows like Volume_MA60 warm up) legitimately contain NaN, which
+    Python's default JSON encoder cannot serialize (raises ValueError
+    instead of emitting `null`). Same fix as applied in backend/backtest.py.
+    """
+    if isinstance(obj, float) and (obj != obj or obj in (float("inf"), float("-inf"))):
+        return None
+    if isinstance(obj, dict):
+        return {k: _sanitize_nans(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_sanitize_nans(v) for v in obj]
+    return obj
 
 # CORS origins allowed to call this API. The Next.js dev server runs on
 # localhost:3000 by default — without this, the browser blocks requests
@@ -214,6 +234,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Wire in the backtest and quality-signals endpoint groups.
+app.include_router(backtest_router)
+app.include_router(quality_router)
+
 
 @app.get("/")
 def health_check():
@@ -279,7 +303,7 @@ def get_stock_detail(ticker: str):
     return {
         "ticker": ticker,
         "row_count": len(df_out),
-        "data": df_out.to_dict(orient="records"),
+        "data": _sanitize_nans(df_out.to_dict(orient="records")),
     }
 
 
