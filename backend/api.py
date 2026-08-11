@@ -1,5 +1,5 @@
 # backend/api.py
-#from backend.quality_signals_api import router as quality_router
+#from backend.quality_signals import router as quality_router
 #app.include_router(quality_router)
 # ─────────────────────────────────────────────────────────────────────────────
 # PURPOSE : A FastAPI server that exposes the fully-scored data (produced by
@@ -59,7 +59,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.testclient import TestClient
 
 from backend.backtest import router as backtest_router
-from backend.quality_signals_api import router as quality_router
+from backend.quality_signals import router as quality_router
 
 PROCESSED_DIR = "data/processed"
 
